@@ -1,7 +1,7 @@
 
 [package]
 name = "Tor_Traffic_Router"
-version = "0.1.2" 
+version = "0.1.3" 
 authors = ["Bader Alotaibi baderalotaibi3@gmail.com"] 
 edition = "2021" 
 description = "A Rust crate to install, manage, and utilize Tor for privacy-enhanced requests."
