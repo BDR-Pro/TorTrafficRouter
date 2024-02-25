@@ -1,5 +1,7 @@
 # `tor_traffic_router` Crate 🌐✨
 
+![DALL·E 2024-02-25 22 53 59 - A vivid and dynamic beach scene at sunset, illustrated in a 16 9 aspect ratio  The scene features a large, cartoonish onion wearing sunglasses, emblem](https://github.com/BDR-Pro/TorTrafficRouter/assets/91114465/fbd94507-cb71-455c-95f0-ff32d05e3b17)
+
 Hey there, fellow digital explorer! 🚀 Ready to dive into the realms of privacy with a sprinkle of Rust magic? 🧙‍♂️💻 Welcome to `tor_traffic_router`, your go-to Rust crate for integrating Tor into your applications with ease and style. Perfect for the Gen Z coder who values privacy, loves open-source, and digs cool tech. Let's keep our internet adventures secure and anonymous, shall we?
 
 ## What's Inside the Box? 🎁
