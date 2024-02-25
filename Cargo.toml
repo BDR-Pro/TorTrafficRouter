@@ -1,0 +1,23 @@
+[package]
+name = "tor_traffic_router"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+reqwest = { version = "0.11", features = ["socks"] }
+sysinfo = "0.30.5"
+tokio = { version = "1", features = ["full"] }
+winapi = { version = "0.3", features = ["shellapi"] }
+
+
+[package]
+version = "0.1.0" 
+authors = ["Bader Alotaibi" <baderalotaibi3@gmail.com>"] 
+edition = "2021" 
+description = "A Rust crate to install, manage, and utilize Tor for privacy-enhanced requests."
+license = "MIT" 
+repository = "https://github.com/BDR-Pro/your_crate_name"
+keywords = ["tor", "privacy", "networking"]
+categories = ["network-programming", "web-programming", "cryptography"]
