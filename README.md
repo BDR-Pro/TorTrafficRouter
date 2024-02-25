@@ -19,7 +19,7 @@ This crate is all about empowering your applications with Tor, the free and open
 
 ```toml
 [dependencies]
-tor_traffic_router = "0.1.0"
+Tor_Traffic_Router = "0.1.0"
 ```
 
 2. **Dive into the Code**: Check out `main.rs` for a shining example. From checking if Tor is installed, to making those stealthy web requests, we've got the blueprint for your privacy-focused adventures.
@@ -28,23 +28,50 @@ tor_traffic_router = "0.1.0"
 
 ```rust
 // Inside your main.rs or wherever your heart desires
-use tor_traffic_router::{install_tor, is_tor_installed, stop_tor, make_anonymous_request};
+mod tor_setup; 
 
-async fn embark_on_privacy_journey() {
-    if !is_tor_installed() {
-        println!("Summoning Tor from the digital ether...");
+use reqwest::Client;
+use std::error::Error;
+use std::process::Command;
+use tor_setup::{is_tor_installed_unix, is_tor_installed_windows, install_tor,stop_tor};
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
+    // Check if Tor is installed; logic varies by OS
+    let tor_installed = if cfg!(target_os = "windows") {
+        is_tor_installed_windows()
+    } else {
+        is_tor_installed_unix()
+    };
+
+    if !tor_installed {
+        println!("Tor is not installed. Installing...");
         install_tor();
+    } else {
+        println!("Tor is already installed. Proceeding...");
+        // Start Tor
+        Command::new("tor").spawn()?;
+        
     }
 
-    println!("Whispering through the shadows of the internet...");
-    let response = make_anonymous_request("http://check.torproject.org/api/ip").await;
-    println!("Response from the beyond: {:?}", response);
+    // Assuming Tor is now installed and configured to listen on the default SOCKS5 port
+    let proxy = reqwest::Proxy::all("socks5://127.0.0.1:9050")?;
+    let client = Client::builder().proxy(proxy).build()?;
 
-    println!("Mission accomplished. Sending Tor back to its realm...");
+    // Example: Make a request through Tor
+    let res = client.get("http://check.torproject.org/api/ip").send().await?;
+
+    println!("Response: {:?}", res.text().await?);
+
     stop_tor();
+
+    Ok(())
 }
+
 ```
+
 ` Response from the beyond: "{\"IsTor\":true,\"IP\":\"192.42.116.194\"}" `
+
 ## Why `tor_traffic_router`? 🤔
 
 In an age where online privacy is as precious as the latest drop from your favorite brand, `tor_traffic_router` is here to keep your digital footprint as elusive as a ghost emoji. 🕵️‍♂️👻 Plus, it's built with the simplicity and efficiency that Gen Z coders value.
