@@ -1,6 +1,6 @@
 
 [package]
-name = "Tor_Traffic_Router"
+name = "tor_traffic_router"
 version = "0.1.0" 
 authors = ["Bader Alotaibi baderalotaibi3@gmail.com"] 
 edition = "2021" 
