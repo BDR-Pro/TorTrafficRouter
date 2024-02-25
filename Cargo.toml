@@ -1,16 +1,3 @@
-[package]
-name = "tor_traffic_router"
-version = "0.1.0"
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-reqwest = { version = "0.11", features = ["socks"] }
-sysinfo = "0.30.5"
-tokio = { version = "1", features = ["full"] }
-winapi = { version = "0.3", features = ["shellapi"] }
-
 
 [package]
 version = "0.1.0" 
@@ -21,3 +8,12 @@ license = "MIT"
 repository = "https://github.com/BDR-Pro/TorTrafficRouter"
 keywords = ["tor", "privacy", "networking"]
 categories = ["network-programming", "web-programming", "cryptography"]
+
+
+[dependencies]
+reqwest = { version = "0.11", features = ["socks"] }
+sysinfo = "0.30.5"
+tokio = { version = "1", features = ["full"] }
+winapi = { version = "0.3", features = ["shellapi"] }
+
+
