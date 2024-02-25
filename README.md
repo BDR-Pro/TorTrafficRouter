@@ -35,7 +35,7 @@ mod tor_setup;
 use reqwest::Client;
 use std::error::Error;
 use std::process::Command;
-use tor_setup::{is_tor_installed_unix, is_tor_installed_windows, install_tor,stop_tor};
+use tor_traffic_router::{is_tor_installed_unix, is_tor_installed_windows, install_tor,stop_tor};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
