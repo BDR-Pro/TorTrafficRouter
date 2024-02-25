@@ -30,8 +30,6 @@ Tor_Traffic_Router = "0.1.0"
 
 ```rust
 // Inside your main.rs or wherever your heart desires
-mod tor_setup; 
-
 use reqwest::Client;
 use std::error::Error;
 use std::process::Command;
