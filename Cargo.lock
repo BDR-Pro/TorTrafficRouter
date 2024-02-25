@@ -3,6 +3,16 @@
 version = 3
 
 [[package]]
+name = "Tor_Traffic_Router"
+version = "0.1.1"
+dependencies = [
+ "reqwest",
+ "sysinfo",
+ "tokio",
+ "winapi",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -986,16 +996,6 @@ dependencies = [
  "pin-project-lite",
  "tokio",
  "tracing",
-]
-
-[[package]]
-name = "tor_traffic_router"
-version = "0.1.0"
-dependencies = [
- "reqwest",
- "sysinfo",
- "tokio",
- "winapi",
 ]
 
 [[package]]
