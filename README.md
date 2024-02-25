@@ -44,7 +44,7 @@ async fn embark_on_privacy_journey() {
     stop_tor();
 }
 ```
-
+` Response from the beyond: "{\"IsTor\":true,\"IP\":\"192.42.116.194\"}" `
 ## Why `tor_traffic_router`? 🤔
 
 In an age where online privacy is as precious as the latest drop from your favorite brand, `tor_traffic_router` is here to keep your digital footprint as elusive as a ghost emoji. 🕵️‍♂️👻 Plus, it's built with the simplicity and efficiency that Gen Z coders value.
