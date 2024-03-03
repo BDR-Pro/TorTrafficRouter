@@ -19,10 +19,10 @@ This crate is all about empowering your applications with Tor, the free and open
 
 1. **Add `tor_traffic_router` to Your Cargo.toml**: Just like adding a new friend on social media, but for your project's dependencies.
 
-```toml
-[dependencies]
-Tor_Traffic_Router = "0.1.0"
-```
+    ```toml
+    [dependencies]
+    Tor_Traffic_Router = "0.1.0"
+    ```
 
 2. **Dive into the Code**: Check out `main.rs` for a shining example. From checking if Tor is installed, to making those stealthy web requests, we've got the blueprint for your privacy-focused adventures.
 
@@ -75,6 +75,31 @@ async fn main() -> Result<(), Box<dyn Error>> {
 ## Why `tor_traffic_router`? 🤔
 
 In an age where online privacy is as precious as the latest drop from your favorite brand, `tor_traffic_router` is here to keep your digital footprint as elusive as a ghost emoji. 🕵️‍♂️👻 Plus, it's built with the simplicity and efficiency that Gen Z coders value.
+
+## Change Th congifuration 🛠️
+
+```rust
+
+pub fn config_file(file_path: &str, text: &str) -> std::io::Result<()> {
+    let mut file = OpenOptions::new()
+        .write(true) // Give write permission.
+        .append(true) // Set the file to append mode.
+        .create(true) // Create the file if it does not exist.
+        .open(file_path)?; // Open the file, return the error if there's a problem.
+
+    writeln!(file, "{}", text)?; // Write the text to the file with a new line.
+    Ok(())
+}
+
+```
+
+example usage
+
+```rust
+        let text = format!("HiddenServiceDir {}
+                            HiddenServicePort 80 127.0.0.1:{}",env::current_dir().unwrap().to_str().unwrap(), 8080);
+        let _ = config_file("etc/tor/torrc", &text);
+```
 
 ## Join the Movement 🌍
 

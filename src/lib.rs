@@ -1,6 +1,8 @@
 use std::process::Command;
-
 use sysinfo::System;
+use std::fs::OpenOptions;
+use std::io::Write;
+
 
 pub fn install_tor() {
     #[cfg(target_os = "linux")]
@@ -152,4 +154,16 @@ pub fn stop_tor() {
             }
         }
     }
+}
+
+
+pub fn config_file(file_path: &str, text: &str) -> std::io::Result<()> {
+    let mut file = OpenOptions::new()
+        .write(true) // Give write permission.
+        .append(true) // Set the file to append mode.
+        .create(true) // Create the file if it does not exist.
+        .open(file_path)?; // Open the file, return the error if there's a problem.
+
+    writeln!(file, "{}", text)?; // Write the text to the file with a new line.
+    Ok(())
 }
