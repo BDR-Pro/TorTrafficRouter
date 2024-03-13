@@ -2,6 +2,7 @@ use std::process::Command;
 use sysinfo::System;
 use std::fs::OpenOptions;
 use std::io::Write;
+use reqwest::Client;
 
 
 pub fn install_tor() {
@@ -180,14 +181,14 @@ pub fn tor_proxy() -> reqwest::Client{
     if !tor_installed {
         println!("Tor is not installed. Installing...");
         install_tor();
-    } else {
+    } 
         println!("Tor is already installed. Proceeding...");
         // Start Tor and print the output
-        Command::new("tor").spawn()?;
-        let proxy = reqwest::Proxy::all("socks5://127.0.0.1:9050")?;
+        Command::new("tor").spawn();
+        let proxy = reqwest::Proxy::all("socks5://127.0.0.1:9050");
         let client = Client::builder().proxy(proxy).build()?;
         
         return client;
     }
 
-}
+
