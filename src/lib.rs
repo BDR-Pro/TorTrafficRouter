@@ -167,3 +167,27 @@ pub fn config_file(file_path: &str, text: &str) -> std::io::Result<()> {
     writeln!(file, "{}", text)?; // Write the text to the file with a new line.
     Ok(())
 }
+
+
+
+pub fn tor_proxy() -> reqwest::Client{
+    
+    let tor_installed = if cfg!(target_os = "windows") {
+        is_tor_installed_windows()
+    } else {
+        is_tor_installed_unix()
+    };
+    if !tor_installed {
+        println!("Tor is not installed. Installing...");
+        install_tor();
+    } else {
+        println!("Tor is already installed. Proceeding...");
+        // Start Tor and print the output
+        Command::new("tor").spawn()?;
+        let proxy = reqwest::Proxy::all("socks5://127.0.0.1:9050")?;
+        let client = Client::builder().proxy(proxy).build()?;
+        
+        return client;
+    }
+
+}

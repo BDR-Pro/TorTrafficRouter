@@ -1,112 +1,78 @@
-# `tor_traffic_router` Crate 🌐✨
+# Tor Traffic Router 🛡️
 
-![DALL·E 2024-02-25 22 53 59 - A vivid and dynamic beach scene at sunset, illustrated in a 16 9 aspect ratio  The scene features a large, cartoonish onion wearing sunglasses, emblem](https://github.com/BDR-Pro/TorTrafficRouter/assets/91114465/fbd94507-cb71-455c-95f0-ff32d05e3b17)
+Welcome to **Tor Traffic Router**, a powerful Rust crate designed to make integrating Tor into your Rust applications as seamless as possible. With a strong focus on privacy, this crate ensures your network requests are enhanced with an additional layer of anonymity, leveraging the Tor network. Whether you're developing a new app that requires confidential communication or looking to add a privacy feature to an existing project, Tor Traffic Router has got you covered.
 
-Hey there, fellow digital explorer! 🚀 Ready to dive into the realms of privacy with a sprinkle of Rust magic? 🧙‍♂️💻 Welcome to `tor_traffic_router`, your go-to Rust crate for integrating Tor into your applications with ease and style. Perfect for the Gen Z coder who values privacy, loves open-source, and digs cool tech. Let's keep our internet adventures secure and anonymous, shall we?
+## Features 🌟
 
-## What's Inside the Box? 🎁
-
-This crate is all about empowering your applications with Tor, the free and open-source software for enabling anonymous communication. Whether you're building the next big social media platform, a super-secret project, or just experimenting, `tor_traffic_router` has got your back.
-
-### Features 🌟
-
-- **Automatic Tor Installation**: Whether you're chilling on Windows, maxing out on macOS, or living the Linux life, `tor_traffic_router` auto-magically installs Tor for you. No fuss, no muss.
-- **Cross-Platform Love**: Crafted with ❤️ for Linux, macOS, and Windows. We speak your OS language.
-- **Tor Check & Management**: Easily check if Tor is installed and wave your wizard wand to start or stop it as needed. Because control is cool.
-- **Privacy-Powered Requests**: Make HTTP requests through Tor with minimal code. Anonymous browsing mode: Activated!
+- **Automatic Tor Installation**: Effortlessly installs Tor on your machine, whether you're on Windows, macOS, or Linux.
+- **Tor Management**: Easy-to-use functions to check if Tor is installed, and to start or stop the Tor service as required.
+- **Privacy-Enhanced HTTP Requests**: Utilize the reqwest library configured to route through Tor, ensuring your application's network requests are private and secure.
+- **Flexible Configuration**: Easily modify Tor configuration files directly from your Rust code, allowing for customized Tor services such as hidden services.
 
 ## Getting Started 🚀
 
-1. **Add `tor_traffic_router` to Your Cargo.toml**: Just like adding a new friend on social media, but for your project's dependencies.
+### Prerequisites
 
-    ```toml
-    [dependencies]
-    Tor_Traffic_Router = "0.1.0"
-    ```
+Before diving into Tor Traffic Router, ensure you have Rust installed on your machine. This crate is compatible with Rust edition 2021 and requires no additional setup beyond the Rust toolchain.
 
-2. **Dive into the Code**: Check out `main.rs` for a shining example. From checking if Tor is installed, to making those stealthy web requests, we've got the blueprint for your privacy-focused adventures.
+### Installation
 
-## Example Usage 📚
+Add Tor Traffic Router to your `Cargo.toml`:
+
+```toml
+[dependencies]
+Tor_Traffic_Router = "0.3.0"
+```
+
+### Basic Usage
+
+Here's a quick example to get you started:
 
 ```rust
-// Inside your main.rs or wherever your heart desires
+use Tor_Traffic_Router::{config_file, is_tor_installed_unix, is_tor_installed_windows, install_tor, stop_tor, tor_proxy};
+use std::env;
 use reqwest::Client;
 use std::error::Error;
-use std::process::Command;
-use Tor_Traffic_Router::{is_tor_installed_unix, is_tor_installed_windows, install_tor,stop_tor};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    // Check if Tor is installed; logic varies by OS
-    let tor_installed = if cfg!(target_os = "windows") {
-        is_tor_installed_windows()
-    } else {
-        is_tor_installed_unix()
-    };
+    // Configure Tor with a new hidden service
+    let hidden_service_config = format!(
+        "HiddenServiceDir {}\nHiddenServicePort 80 127.0.0.1:{}",
+        env::current_dir().unwrap().to_str().unwrap(),
+        8080
+    );
+    
+    config_file("etc/tor/torrc", &hidden_service_config);
 
-    if !tor_installed {
-        println!("Tor is not installed. Installing...");
-        install_tor();
-    } else {
-        println!("Tor is already installed. Proceeding...");
-        // Start Tor
-        Command::new("tor").spawn()?;
-        
-    }
+    // Ensure Tor is installed and start it
+    let client = tor_proxy();
 
-    // Assuming Tor is now installed and configured to listen on the default SOCKS5 port
-    let proxy = reqwest::Proxy::all("socks5://127.0.0.1:9050")?;
-    let client = Client::builder().proxy(proxy).build()?;
-
-    // Example: Make a request through Tor
+    // Make a privacy-focused request
     let res = client.get("http://check.torproject.org/api/ip").send().await?;
-
     println!("Response: {:?}", res.text().await?);
 
     stop_tor();
 
     Ok(())
 }
-
 ```
 
-` Response from the beyond: "{\"IsTor\":true,\"IP\":\"192.42.116.194\"}" `
+## Documentation 📖
 
-## Why `tor_traffic_router`? 🤔
+For more detailed information about each function and configuration options, please refer to the inline documentation within the code. Our GitHub repository also includes additional examples and usage scenarios to help you integrate Tor Traffic Router into your projects seamlessly.
 
-In an age where online privacy is as precious as the latest drop from your favorite brand, `tor_traffic_router` is here to keep your digital footprint as elusive as a ghost emoji. 🕵️‍♂️👻 Plus, it's built with the simplicity and efficiency that Gen Z coders value.
+## Contributing ✨
 
-## Change Th congifuration 🛠️
+Contributions are what make the open-source community such a fantastic place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!
 
-```rust
+## License 📄
 
-pub fn config_file(file_path: &str, text: &str) -> std::io::Result<()> {
-    let mut file = OpenOptions::new()
-        .write(true) // Give write permission.
-        .append(true) // Set the file to append mode.
-        .create(true) // Create the file if it does not exist.
-        .open(file_path)?; // Open the file, return the error if there's a problem.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-    writeln!(file, "{}", text)?; // Write the text to the file with a new line.
-    Ok(())
-}
+## Acknowledgments 🙏
 
-```
+- Special thanks to the Tor Project for making online privacy accessible to everyone.
+- Kudos to the Rust community for providing an ecosystem that makes secure and efficient programming achievable.
 
-example usage
-
-```rust
-        let text = format!("HiddenServiceDir {}
-                            HiddenServicePort 80 127.0.0.1:{}",env::current_dir().unwrap().to_str().unwrap(), 8080);
-        let _ = config_file("etc/tor/torrc", &text);
-```
-
-## Join the Movement 🌍
-
-Grab `tor_traffic_router` and join the ranks of privacy defenders. Whether you're coding in a coffee shop, at a hackathon, or in your cozy room, let's make the internet a safer space for everyone.
-
-**Remember**: With great power comes great responsibility. Use `tor_traffic_router` wisely and ethically. Happy coding! 🎉
-
----
-
-P.S. Need help or wanna contribute? Find us on GitHub. Let's make `tor_traffic_router` even more awesome together!
+Join us in our journey to make the internet a safer, more private space for everyone. Happy coding! 🎉
