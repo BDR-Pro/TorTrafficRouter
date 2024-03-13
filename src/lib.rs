@@ -2,7 +2,9 @@ use std::process::Command;
 use sysinfo::System;
 use std::fs::OpenOptions;
 use std::io::Write;
-use reqwest::Client;
+use reqwest::{Client, Error as ReqwestError}; 
+use std::error::Error;
+use std::process::Command;
 
 
 pub fn install_tor() {
@@ -171,8 +173,7 @@ pub fn config_file(file_path: &str, text: &str) -> std::io::Result<()> {
 
 
 
-pub fn tor_proxy() -> reqwest::Client{
-    
+pub fn tor_proxy() -> Result<reqwest::Client, Box<dyn Error>> {
     let tor_installed = if cfg!(target_os = "windows") {
         is_tor_installed_windows()
     } else {
@@ -181,14 +182,14 @@ pub fn tor_proxy() -> reqwest::Client{
     if !tor_installed {
         println!("Tor is not installed. Installing...");
         install_tor();
-    } 
+    } else {
         println!("Tor is already installed. Proceeding...");
-        // Start Tor and print the output
-        Command::new("tor").spawn();
-        let proxy = reqwest::Proxy::all("socks5://127.0.0.1:9050");
-        let client = Client::builder().proxy(proxy).build()?;
-        
-        return client;
     }
+    // Start Tor and print the output
+    let _ = Command::new("tor").spawn().expect("Failed to start Tor.");
 
-
+    let proxy = reqwest::Proxy::all("socks5://127.0.0.1:9050").expect("Failed to create proxy.");
+    let client = Client::builder().proxy(proxy).build()?;
+    
+    Ok(client)
+}
