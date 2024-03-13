@@ -1,8 +1,7 @@
-use std::process::Command;
 use sysinfo::System;
 use std::fs::OpenOptions;
 use std::io::Write;
-use reqwest::{Client, Error as ReqwestError}; 
+use reqwest::Client; 
 use std::error::Error;
 use std::process::Command;
 

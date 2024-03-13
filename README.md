@@ -62,6 +62,32 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
 For more detailed information about each function and configuration options, please refer to the inline documentation within the code. Our GitHub repository also includes additional examples and usage scenarios to help you integrate Tor Traffic Router into your projects seamlessly.
 
+```bash
+
+
+/* //////////////////////////////////////////////////////////// */
+/* //                                                        // */
+/* //   _______ ____  _____      ____        _               // */
+/* //  |__   __/ __ \|  __ \    / __ \      (_)              // */
+/* //     | | | |  | | |__) |  | |  | |_ __  _  ___  _ __    // */
+/* //     | | | |  | |  _  /   | |  | | '_ \| |/ _ \| '_ \   // */
+/* //     | | | |__| | | \ \   | |__| | | | | | (_) | | | |  // */
+/* //     |_|  \____/|_|  \_\ (_)____/|_| |_|_|\___/|_| |_|  // */
+/* //                                                        // */
+/* //////////////////////////////////////////////////////////// */
+
+```
+
+## Example 🚧
+
+![alt text](rust.gif)
+
+### please ignore warnings and errors in the gif above, it is just a demonstration of the code running
+
+```bash
+Response: "{\"IsTor\":true,\"IP\":\"91.219.239.166\"}" 
+```
+
 ## Contributing ✨
 
 Contributions are what make the open-source community such a fantastic place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!
